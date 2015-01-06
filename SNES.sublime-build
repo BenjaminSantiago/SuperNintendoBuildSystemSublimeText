@@ -1,0 +1,32 @@
+//batch system for SNES --> wla-65816 and wlalink
+
+//create the object file & use linker to create .sfc file
+{	"shell":true,
+	"windows":
+	{
+		"cmd":		
+		[
+			"wla-65816", "-ov", "$file", "&&",
+			"echo",  "[objects]", ">", "$file_base_name.link", "&&", 
+			"echo", "$file_base_name.o", ">>", "$file_base_name.link", "&&",
+			"wlalink", "-vr", "$file_base_name.link", "$file_base_name.sfc", "&&",
+			"del", "/q", "$file_base_name.o", "&&", 
+			"del","/q", "$file_base_name.link"
+		]
+	},
+	"selector":	"source.wla-65816",
+	"variants":
+	[
+		//run command (launch NO$SNS)
+		{
+			"name":"Run",
+			"windows":
+			{
+				"cmd":["$file_base_name.sfc"]
+			}
+		}
+	]
+}
+
+
+
